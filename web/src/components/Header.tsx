@@ -1,7 +1,6 @@
 import { Plus } from 'phosphor-react'
 import logoImage from '../assets/logo.svg'
 
-
 export function Header() {
   return (
     <div className='w-full max-w-3xl mx-auto flex items-center justify-between'>
