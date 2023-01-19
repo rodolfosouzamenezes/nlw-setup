@@ -37,7 +37,7 @@ export function NewHabit() {
           selectionColor={colors.violet[500]}
           placeholderTextColor={colors.zinc[400]}
           placeholder='Exercícios, dormir bem... '
-          className="h-12 pl-4 rounded-lg mt-3 bg-zinc-800 text-white focus:border-2 focus:border-violet-600"
+          className="h-12 pl-4 rounded-lg mt-3 bg-zinc-900 text-white border-2 border-zinc-800 focus:border-violet-600"
         />
 
         <Text className="mt-6 mb-3 text-white font-semibold text-base">
