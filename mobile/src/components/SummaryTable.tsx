@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { HabitDay, DAY_SIZE } from "../components/HabitDay";
+import { api } from "../lib/axios";
 import { generateDatesFromYearBeginning } from "../utils/generate-dates-from-year-beginning";
 
 const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
@@ -10,7 +12,29 @@ const minimumSummaryDatesSize = 18 * 6.23;
 const amountOfDaysToFill = minimumSummaryDatesSize - datesFromYearStart.length;
 
 export function SummaryTable() {
+  const [loading, setLoading] = useState(true)
+  const [summary, setSummary] = useState(null)
   const { navigate } = useNavigation()
+
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+
+      const response = await api.get('/summary')
+
+      console.log(response.data)
+      setSummary(response.data);
+    } catch (error) {
+      Alert.alert('Ops', 'Não foi possível carregar o sumário')
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
 
   return (
     <View className="flex-1">

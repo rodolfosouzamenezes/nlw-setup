@@ -9,7 +9,7 @@ app.register(cors)
 
 app.register(appRoutes)
 
-app.listen({ port }).then(() => {
+app.listen({ port, host: '::', }).then(() => {
   const brightCode = '\x1b[1m';
   const greenCode = '\x1b[32m';
   const resetCode = '\x1b[0m';
