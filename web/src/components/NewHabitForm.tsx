@@ -1,6 +1,7 @@
 import { Check } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { FormEvent, useState } from "react";
+import { api } from "../lib/axios";
 
 const availableWeekDays = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
 
@@ -9,10 +10,22 @@ export function NewHabitForm() {
   const [title, setTitle] = useState('')
   const [weekDays, setWeekDays] = useState<number[]>([])
 
-  const createNewHabit = (event: FormEvent) => {
+  const createNewHabit = async (event: FormEvent) => {
     event.preventDefault();
 
-    console.log(title, weekDays);
+    if (!title || weekDays.length === 0) {
+      return
+    }
+
+    await api.post('/habits', {
+      title,
+      weekDays,
+    })
+
+    setTitle('')
+    setWeekDays([])
+
+    alert('Hábito criado com sucesso')
   }
 
   const handleToggleWeekDay = (weekDayIndex: number) => {
@@ -34,6 +47,7 @@ export function NewHabitForm() {
         type='text'
         id='title'
         onChange={event => setTitle(event.target.value)}
+        value={title}
         placeholder='Ex: Beber 2L de água, Ir à academia...'
         className="p-4 rounded-lg mt-3 bg-zinc-800 text-white placeholder:text-zinc-400"
       />
@@ -42,10 +56,12 @@ export function NewHabitForm() {
         Qual a recorrência?
       </label>
 
-      {
-        availableWeekDays.map((availableWeekDay, index) => (
-          <div key={`${availableWeekDay}-${index}`} className='mt-3 flex flex-col gap-2'>
+      <div className='mt-3 flex flex-col gap-2'>
+        {
+          availableWeekDays.map((availableWeekDay, index) => (
             <Checkbox.Root
+              key={`${availableWeekDay}-${index}`}
+              checked={weekDays.includes(index)}
               onCheckedChange={() => handleToggleWeekDay(index)}
               className='flex items-center gap-3 group'
             >
@@ -58,10 +74,10 @@ export function NewHabitForm() {
                 {availableWeekDay}
               </span>
             </Checkbox.Root>
-          </div>
 
-        ))
-      }
+          ))
+        }
+      </div>
       <button type="submit" className="mt-6 rounded-lg p-4 flex items-center justify-center gap-3 font-semibold bg-green-600 hover:bg-green-700">
         <Check size={20} weight='bold' />
         Confirmar

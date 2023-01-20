@@ -3,8 +3,7 @@ import * as Checkbox from '@radix-ui/react-checkbox';
 import clsx from 'clsx';
 import { ProgressBar } from './ProgressBar';
 import { Check } from 'phosphor-react';
-
-const weekdays = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+import dayjs from 'dayjs';
 interface HabitDayProps {
   date: Date;
   amount?: number;
@@ -12,8 +11,8 @@ interface HabitDayProps {
 }
 
 export function HabitDay({ date, amount = 0, completed = 0 }: HabitDayProps) {
-  const weekDay = weekdays[date.getDay()];
-  const dateFormatted = date.toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit' });
+  const weekDay = dayjs(date).format('dddd');
+  const dateFormatted = dayjs(date).format('DD/MM');
 
   const completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
 
