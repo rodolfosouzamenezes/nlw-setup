@@ -7,15 +7,15 @@ import { Check } from 'phosphor-react';
 const weekdays = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
 interface HabitDayProps {
   date: Date;
-  amount: number;
-  completed: number;
+  amount?: number;
+  completed?: number;
 }
 
-export function HabitDay({ date, amount, completed }: HabitDayProps) {
+export function HabitDay({ date, amount = 0, completed = 0 }: HabitDayProps) {
   const weekDay = weekdays[date.getDay()];
   const dateFormatted = date.toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit' });
 
-  const completedPercentage = Math.round((completed / amount) * 100);
+  const completedPercentage = amount > 0 ? Math.round((completed / amount) * 100) : 0;
 
   return (
     <Popover.Root>
