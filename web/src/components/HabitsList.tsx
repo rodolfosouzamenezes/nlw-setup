@@ -19,6 +19,26 @@ interface HabitsListProps {
 
 export function HabitsList({ date }: HabitsListProps) {
   const [habitsInfo, setHabitsInfo] = useState<HabitsInfo>()
+
+  const handleToggleHabit = (habitId: string) => {
+    api.patch(`/habits/${habitId}/toggle`)
+    
+    const isHabitAlreadyCompleted = habitsInfo!.completedHabits.includes(habitId)
+
+    let completedHabits: string[] = []
+
+    if (isHabitAlreadyCompleted) {
+      completedHabits = habitsInfo!.completedHabits.filter(id => id !== habitId)
+    } else {
+      completedHabits = [...habitsInfo!.completedHabits, habitId]
+    }
+
+    setHabitsInfo({
+      possibleHabits: habitsInfo!.possibleHabits,
+      completedHabits,
+    })
+  }
+
   useEffect(() => {
     api.get('/day', {
       params: {
@@ -40,6 +60,7 @@ export function HabitsList({ date }: HabitsListProps) {
         return (
           <Checkbox.Root
             key={habit.id}
+            onCheckedChange={() => handleToggleHabit(habit.id)}
             checked={habitsInfo.completedHabits.includes(habit.id)}
             disabled={isDateInPast}
             className='flex items-center gap-3 group'
