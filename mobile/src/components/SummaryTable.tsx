@@ -31,7 +31,6 @@ export function SummaryTable() {
 
       const response = await api.get('/summary')
 
-      console.log(response.data)
       setSummary(response.data);
     } catch (error) {
       Alert.alert('Ops', 'Não foi possível carregar o sumário')
