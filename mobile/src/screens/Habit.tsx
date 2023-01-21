@@ -34,8 +34,8 @@ export function Habit() {
   const dayOfWeek = parsedDate.format('dddd')
   const dayAndMount = parsedDate.format('DD/MM')
 
-  const habitsProgress = dayInfo?.completedHabits.length
-    ? generateProgressPercentage(dayInfo.possibleHabits.length, completedHabits.length)
+  const habitsProgress = dayInfo?.completedHabits.length || completedHabits.length > 0
+    ? generateProgressPercentage(dayInfo!.possibleHabits.length, completedHabits.length)
     : 0
 
   const fetchHabits = async () => {

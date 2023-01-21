@@ -13,6 +13,8 @@ export function ProgressBar({ progress = 0 }: ProgressBarProps) {
       width: `${sharedProgress.value}%`
     }
   })
+  console.log(progress);
+  
 
   useEffect(() => {
     sharedProgress.value = withTiming(progress)
